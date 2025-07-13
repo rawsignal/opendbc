@@ -46,7 +46,7 @@ class CAR(Platforms):
       RivianCarDocs("Rivian R1S 2022-24"),
       RivianCarDocs("Rivian R1T 2022-24"),
     ],
-    CarSpecs(mass=3206., wheelbase=3.08, steerRatio=15.2),
+    CarSpecs(mass=3006., wheelbase=3.08, steerRatio=15.2),
     wmis={WMI.RIVIAN_TRUCK, WMI.RIVIAN_MPV},
     lines={ModelLine.R1T, ModelLine.R1S},
     years={ModelYear.N_2022, ModelYear.P_2023, ModelYear.R_2024},
