@@ -200,11 +200,11 @@ static bool tesla_legacy_fwd_hook(int bus_num, int addr) {
 }
 
 static safety_config tesla_legacy_init(uint16_t param) {
-  const int TESLA_FLAG_EXTERNAL_PANDA = 2;
+  const int TESLA_FLAG_EXTERNAL_PANDA = 1;
+  const int TESLA_FLAG_PREAP = 2;
   const int TESLA_FLAG_HW1 = 4;
   const int TESLA_FLAG_HW2 = 8;
   const int TESLA_FLAG_HW3 = 16;
-  const int TESLA_FLAG_PREAP = 32;
 
   tesla_external_panda = GET_FLAG(param, TESLA_FLAG_EXTERNAL_PANDA);
   tesla_hw1 = GET_FLAG(param, TESLA_FLAG_HW1);

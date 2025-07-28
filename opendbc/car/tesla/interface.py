@@ -45,11 +45,11 @@ class CarInterface(CarInterfaceBase):
     ret.brand = "tesla"
 
     TESLA_LEGACY_SAFETY_MODEL = 99
-    PARAM_EXTERNAL_PANDA = 2
+    PARAM_EXTERNAL_PANDA = 1
+    PARAM_PREAP = 2
     PARAM_HW1 = 4
     PARAM_HW2 = 8
     PARAM_HW3 = 16
-    PARAM_PREAP = 32
 
     if not any(0x201 in f for f in fingerprint.values()):
       ret.flags |= TeslaFlags.NO_SDM1.value
