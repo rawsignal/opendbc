@@ -71,6 +71,8 @@ class CarController(CarControllerBase):
       if CP.carFingerprint == CAR.TESLA_MODEL_S_HW1:
         CANBUS.powertrain = CANBUS.party
         CANBUS.autopilot_powertrain = CANBUS.autopilot_party
+      elif CP.carFingerprint == CAR.TESLA_MODEL_S_PREAP:
+        CANBUS.party = CANBUS.autopilot_party = CANBUS.chassis = CANBUS.powertrain = CANBUS.autopilot_powertrain = 0
 
       self.packers = {CANBUS.party: CANPacker(dbc_names[Bus.party]), CANBUS.powertrain: CANPacker(dbc_names[Bus.pt])}
       self.tesla_can = TeslaCANRaven(self.packers)
@@ -97,7 +99,7 @@ class CarController(CarControllerBase):
       else:
         can_sends.append(self.tesla_can.create_steering_control(self.apply_angle_last, lat_active))
 
-    if self.frame % 10 == 0 and self.CP.carFingerprint not in (CAR.TESLA_MODEL_S_HW1, ):
+    if self.frame % 10 == 0 and self.CP.carFingerprint not in (CAR.TESLA_MODEL_S_PREAP, CAR.TESLA_MODEL_S_HW1, ):
       cntr = (self.frame // 10) % 16
       can_sends.append(self.tesla_can.create_steering_allowed(cntr))
 

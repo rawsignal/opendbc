@@ -20,6 +20,8 @@ class CarState(CarStateBase):
       elif self.CP.carFingerprint == CAR.TESLA_MODEL_S_HW1:
         CANBUS.powertrain = CANBUS.party
         CANBUS.autopilot_powertrain = CANBUS.autopilot_party
+      elif self.CP.carFingerprint == CAR.TESLA_MODEL_S_PREAP:
+        CANBUS.party = CANBUS.autopilot_party = CANBUS.chassis = CANBUS.powertrain = CANBUS.autopilot_powertrain = 0
 
       self.can_define_party = CANDefine(DBC[CP.carFingerprint][Bus.party])
       self.can_define_pt = CANDefine(DBC[CP.carFingerprint][Bus.pt])

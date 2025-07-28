@@ -6,6 +6,7 @@ static bool tesla_external_panda = false;
 static bool tesla_hw1 = false;
 static bool tesla_hw2 = false;
 static bool tesla_hw3 = false;
+static bool tesla_preap = false;
 
 static int chassis_bus = 0;
 static int das_control_msg = 0x2bf;
@@ -203,11 +204,13 @@ static safety_config tesla_legacy_init(uint16_t param) {
   const int TESLA_FLAG_HW1 = 4;
   const int TESLA_FLAG_HW2 = 8;
   const int TESLA_FLAG_HW3 = 16;
+  const int TESLA_FLAG_PREAP = 32;
 
   tesla_external_panda = GET_FLAG(param, TESLA_FLAG_EXTERNAL_PANDA);
   tesla_hw1 = GET_FLAG(param, TESLA_FLAG_HW1);
   tesla_hw2 = GET_FLAG(param, TESLA_FLAG_HW2);
   tesla_hw3 = GET_FLAG(param, TESLA_FLAG_HW3);
+  tesla_preap = GET_FLAG(param, TESLA_FLAG_PREAP);
 
   tesla_legacy_aeb = false;
   tesla_legacy_stock_lkas = false;
@@ -257,8 +260,17 @@ static safety_config tesla_legacy_init(uint16_t param) {
       {.msg = {{0x368, 0, 8, 10U, .ignore_quality_flag = true, .ignore_checksum = true, .ignore_counter = true}, { 0 }, { 0 }}},   // DI_state
     };
     ret = BUILD_SAFETY_CFG(tesla_legacy_hw1_rx_checks, TESLA_TX_LEGACY_HW1_MSGS);
-  }
-  else {
+  } else if(tesla_preap){
+    di_torque1_msg = 0x108;
+    static RxCheck tesla_legacy_hw1_rx_checks[] = {
+      {.msg = {{0x108, 0, 8, 100U, .ignore_quality_flag = true, .ignore_checksum = true, .ignore_counter = true}, { 0 }, { 0 }}},  // DI_torque1
+      {.msg = {{0x370, 0, 8, 25U, .ignore_quality_flag = true, .ignore_checksum = true, .ignore_counter = true}, { 0 }, { 0 }}},   // EPAS_sysStatus (25hz)
+      {.msg = {{0x155, 0, 8, 50U, .ignore_quality_flag = true, .ignore_checksum = true, .ignore_counter = true}, { 0 }, { 0 }}},   // ESP_private1
+      {.msg = {{0x20a, 0, 8, 50U, .ignore_quality_flag = true, .ignore_checksum = true, .ignore_counter = true}, { 0 }, { 0 }}},   // BrakeMessage
+      {.msg = {{0x368, 0, 8, 10U, .ignore_quality_flag = true, .ignore_checksum = true, .ignore_counter = true}, { 0 }, { 0 }}},   // DI_state
+    };
+    ret = BUILD_SAFETY_CFG(tesla_legacy_hw1_rx_checks, TESLA_TX_LEGACY_HW1_MSGS);
+  } else {
      static RxCheck tesla_legacy_hw2_rx_checks[] = {
       {.msg = {{0x370, 0, 8, 25U, .ignore_quality_flag = true, .ignore_checksum = true, .ignore_counter = true}, { 0 }, { 0 }}},   // EPAS_sysStatus (25hz)
       {.msg = {{0x155, 0, 8, 50U, .ignore_quality_flag = true, .ignore_checksum = true, .ignore_counter = true}, { 0 }, { 0 }}},   // ESP_private1
