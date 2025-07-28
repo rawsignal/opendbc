@@ -218,8 +218,12 @@ class CarState(CarStateBase):
     else:
       ret.seatbeltUnlatched = cp_chassis.vl["SDM1"]["SDM_bcklDrivStatus"] != 1
 
-    # AEB
-    ret.stockAeb = cp_ap_pt.vl["DAS_control"]["DAS_aebEvent"] == 1
+    if self.CP.carFingerprint != CAR.TESLA_MODEL_S_PREAP:
+      # AEB
+      ret.stockAeb = cp_ap_pt.vl["DAS_control"]["DAS_aebEvent"] == 1
+
+      # Messages needed by carcontroller
+      self.das_control = copy.copy(cp_ap_pt.vl["DAS_control"])
 
     # LKAS
     ret.stockLkas = cp_ap_party.vl["DAS_steeringControl"]["DAS_steeringControlType"] == 2  # LANE_KEEP_ASSIST
@@ -228,9 +232,6 @@ class CarState(CarStateBase):
     # ret.invalidLkasSetting = cp_ap_party.vl["DAS_settings"]["DAS_autosteerEnabled"] != 0
 
     # Buttons # ToDo: add Gap adjust button
-
-    # Messages needed by carcontroller
-    self.das_control = copy.copy(cp_ap_pt.vl["DAS_control"])
 
     return ret
 
