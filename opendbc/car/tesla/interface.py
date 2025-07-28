@@ -78,7 +78,7 @@ class CarInterface(CarInterfaceBase):
     ret.steerAtStandstill = True
 
     ret.steerControlType = structs.CarParams.SteerControlType.angle
-    ret.radarUnavailable = False
+    ret.radarUnavailable = candidate == CAR.TESLA_MODEL_S_PREAP
 
     ret.alphaLongitudinalAvailable = not candidate == CAR.TESLA_MODEL_S_PREAP
     ret.openpilotLongitudinalControl = not candidate == CAR.TESLA_MODEL_S_PREAP
