@@ -52,7 +52,7 @@ class RadarInterface(RadarInterfaceBase):
 
     if self.continental_radar:
       radar_status = self.rcp.vl['RadarStatus']
-      ret.errors.radarUnavailableTemporary = radar_status['shortTermUnavailable']
+      ret.errors.radarUnavailableTemporary = radar_status['shortTermUnavailable'] != 0
       ret.errors.radarFault = radar_status['sensorBlocked'] != 0 or radar_status['vehDynamicsError'] != 0
     elif self.bosch_radar:
       radar_status = self.rcp.vl['TeslaRadarSguInfo']
